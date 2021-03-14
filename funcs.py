@@ -280,9 +280,9 @@ def suumo_info(soup):
 
     return {"name": name,
             "url": url,
-            "name_link": f'<a href="{url}">{name}</a>',
+            "name_link": f'<a href="{url}" target="_blank">{name}</a>',
             "img_url": img_url,
-            "img_tag": f'<img src="{img_url}">',
+            "img_tag": f'<img src="{img_url}" height=150>',
             "rent": rent,
             "rent_str": rent_str,
             "management_fee": management_fee,
@@ -299,6 +299,7 @@ def suumo_info(soup):
             "detail": detail.replace('\n', ''),
             "building_type": building_type,
             "age": age,            
+            "info_in_table": _info_in_table(rent_str, management_fee_str, deposit_str, key_money_str, layout, area, address, building_type, age)            
            }
 
 def _parse_homes_area_ids(url='https://www.homes.co.jp/chintai/tokyo/city/'):
@@ -503,9 +504,9 @@ def homes_info(soup):
     
     return {"name": name,
             "url": url,
-            "name_link": f'<a href="{url}">{name}</a>',
+            "name_link": f'<a href="{url}" target="_blank">{name}</a>',
             "img_url": img_url,
-            "img_tag": f'<img src="{img_url}">',
+            "img_tag": f'<img src="{img_url}" height=150>',
             "rent": rent,
             "rent_str": rent_str,
             "management_fee": management_fee,
@@ -520,9 +521,22 @@ def homes_info(soup):
             "address": address,
             "detail": detail,
             "building_type": "",
-            "age": ""
+            "age": "",
+            "info_in_table": _info_in_table(rent_str, management_fee_str, deposit_str, key_money_str, layout, area, address, '', age)
            }
 
+
+def _info_in_table(rent, management_fee, deposit, key_money, layout, area, address, building_type, age):
+    if age != '新築': age = f'築{age}年' 
+    return f'''
+    <ul>
+    <li>賃料: {rent} 管理費: {management_fee}</li>
+    <li>敷金: {deposit} 礼金: {key_money}</li>
+    <li>{layout} {area}㎡</li>
+    <li>{age} {building_type}</li>
+    <li>{address}</li>
+    </ul>
+    '''.replace('\n', '')
 
 # suumoとhomesの両方
 def rooms_info_accross_services(prefecture = '東京都',
@@ -583,7 +597,8 @@ def rooms_info_accross_services(prefecture = '東京都',
     homes_rooms_info = [homes_info(property_) for property_ in tqdm(soup.select(".moduleInner.prg-building"))]
     print(n_lists)
     for i in range(int((n_lists - 20) / 20)):
-        driver.find_element_by_class_name('nextPage').click()
+        try: driver.find_element_by_class_name('nextPage').click()
+        except: break
         soup = BeautifulSoup(driver.page_source, 'html.parser')
         homes_rooms_info += [homes_info(property_) for property_ in tqdm(soup.select(".moduleInner.prg-building"))]
     driver.close()

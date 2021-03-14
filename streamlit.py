@@ -1,5 +1,4 @@
 import streamlit as st
-from streamlit_folium import folium_static
 import matplotlib.pyplot as plt
 import pandas as pd
 import pandas_profiling
@@ -46,8 +45,6 @@ if st.sidebar.button('検索'):
                                          options=options,
                                          n_lists=int(n_lists/2) # NOTE: suumoとhomes
                                         )
-
-    df = df.drop(['rent', 'management_fee', 'rent_and_management_fee', 'deposit', 'key_money', 'detail'], axis=1)
     map_ = export_map_html(df, area, area)
     st.components.v1.html(folium.Figure().add_child(map_).render(), height=500)
-    st.write(df.drop(['name', 'url', 'img_url'], axis=1).to_html(escape=False), unsafe_allow_html=True)
+    st.write(df[['name_link', 'img_tag', 'info_in_table']].to_html(header=None, escape=False), unsafe_allow_html=True)
