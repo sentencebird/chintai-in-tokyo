@@ -6,8 +6,8 @@ import pandas_profiling
 from funcs import *
 
 title = '物件検索（東京）'
-st.set_page_config(page_title=title, layout='wide')
-st.title(title)
+#st.set_page_config(page_title=title, layout='wide')
+#st.title(title)
 
 st.sidebar.write('検索条件')
 prefecture = '東京' # NOTE: まだここだけ
