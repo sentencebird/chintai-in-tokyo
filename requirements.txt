@@ -1,0 +1,7 @@
+folium
+pandas
+pandas-profiling
+selenium
+beautifulsoup4
+geocoder
+streamlit==0.76.0

@@ -7,7 +7,7 @@ from selenium.webdriver.chrome.options import Options
 import geocoder
 import folium
 
-from ipywidgets import interact, Dropdown, SelectionSlider, SelectMultiple
+# from ipywidgets import interact, Dropdown, SelectionSlider, SelectMultiple # NOTE: streamlitで不要
 
 from tqdm.notebook import tqdm
 import pandas as pd
