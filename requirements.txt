@@ -5,3 +5,4 @@ selenium
 beautifulsoup4
 geocoder
 streamlit==0.76.0
+chromedriver-binary==89.0.4389.23.0
