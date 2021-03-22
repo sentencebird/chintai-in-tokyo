@@ -51,9 +51,9 @@ def get_driver(url, headless=True):
     if headless:
         options = Options()
         options.add_argument('--headless')
-        driver = webdriver.Chrome('./chromedriver', chrome_options=options)
+        driver = webdriver.Chrome('chromedriver', chrome_options=options)
     else:
-        driver =  webdriver.Chrome('./chromedriver')
+        driver =  webdriver.Chrome('chromedriver')
     driver.get(url)    
     return driver
 
